@@ -7,6 +7,11 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+//Import routes
+const indexRouter = require('./routes/index');
+const weatherRouter = require('./routes/weather');
+const alertsRouter = require('./routes/alerts');
+
 const app = express();
 
 //Data base connection
@@ -26,8 +31,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-
-
 //Rate Limiter
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -43,7 +46,10 @@ app.get('/', (req, res) => {
     res.send('Smart City Dashboard API!');
 });
 
-
+//Routes
+app.use('/api/v1', indexRouter);
+app.use('/api/v1/weather', weatherRouter);
+app.use('/api/v1/alerts', alertsRouter);
 
 
 //Error handling middleware
