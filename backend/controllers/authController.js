@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { promisify } = require('util');
+const { AppError } = require('../utils/errorHandler');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -8,37 +9,45 @@ const signToken = (id) => {
   });
 };
 
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + (process.env.JWT_COOKIE_EXPIRES_IN || 90) * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production'
+  };
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // Removing password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user
+    }
+  });
+};
+
+
 exports.signup = async (req, res, next) => {
   try {
     const newUser = await User.create({
       username: req.body.username,
       email: req.body.email,
       password: req.body.password,
-      role: req.body.role || 'user'
+      role: req.body.role || 'user',
+      cityPreferences: req.body.cityPreferences || []
     });
 
-    const token = signToken(newUser._id);
-
-    res.cookie('jwt', token, {
-      expires: new Date(
-        Date.now() + (process.env.JWT_COOKIE_EXPIRES_IN || 90) * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production'
-    });
-
-    res.status(201).json({
-      status: 'success',
-      token,
-      data: {
-        user: newUser
-      }
-    });
+        createSendToken(newUser, 201, res);
   } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err.message
-    });
+    next(err);
   }
 };
 
@@ -46,40 +55,21 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // 1) Check if email and password exist
+    //Checking if email and password exist
     if (!email || !password) {
-      throw new Error('Please provide email and password!');
+      return next (new AppError('Please provide email and password!', 400));
     }
 
-    // 2) Check if user exists && password is correct
+    //Checking if user exists && password is correct
     const user = await User.findOne({ email }).select('+password');
     if (!user || !(await user.comparePassword(password, user.password))) {
-      throw new Error('Incorrect email or password');
+      return next(new AppError('Incorrect email or password', 401));
     }
 
-    // 3) If everything ok, send token to client
-    const token = signToken(user._id);
-
-    res.cookie('jwt', token, {
-      expires: new Date(
-        Date.now() + (process.env.JWT_COOKIE_EXPIRES_IN || 90) * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production'
-    });
-
-    res.status(200).json({
-      status: 'success',
-      token,
-      data: {
-        user
-      }
-    });
+    //If everything is okay, send token to client
+    createSendToken(user, 200, res);
   } catch (err) {
-    res.status(401).json({
-      status: 'fail',
-      message: err.message
-    });
+    next(err);
   }
 };
 
