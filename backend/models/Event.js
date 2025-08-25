@@ -17,7 +17,11 @@ const eventSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date },
   organizer: { type: String },
-  imageUrl: { type: String }
+  imageUrl: { type: String },
+  isFeatured: { type: Boolean, default: false }
 }, { timestamps: true });
+
+//Index for querying events by city and date
+eventSchema.index({ city: 1, startDate: 1 });
 
 module.exports = mongoose.model('Event', eventSchema);
