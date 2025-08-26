@@ -11,6 +11,5 @@ router.get('/history/:city', weatherValidation, weatherController.getWeatherHist
 //Protected routes (admin only)
 router.use(authController.protect, authController.restrictTo('admin'));
 
-//Additional admin-only weather routes can be added here
 
 module.exports = router;
