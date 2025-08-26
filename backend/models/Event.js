@@ -12,7 +12,7 @@ const eventSchema = new mongoose.Schema({
   location: { type: String, required: true },
   coordinates: {
     lat: { type: Number },
-    lng: { type: Number }
+    lon: { type: Number }
   },
   startDate: { type: Date, required: true },
   endDate: { type: Date },

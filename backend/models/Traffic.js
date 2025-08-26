@@ -5,7 +5,7 @@ const trafficSchema = new mongoose.Schema({
   location: { type: String, required: true },
   coordinates: {
     lat: { type: Number, required: true },
-    lng: { type: Number, required: true }
+    lon: { type: Number, required: true }
   },
   congestionLevel: { 
     type: String, 

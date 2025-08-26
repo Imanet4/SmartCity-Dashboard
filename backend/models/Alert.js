@@ -9,7 +9,7 @@ const alertSchema = new mongoose.Schema({
   location: { type: String },
   coordinates: {
     lat: { type: Number },
-    lng: { type: Number }
+    lon: { type: Number }
   },
   startTime: { type: Date, default: Date.now },
   endTime: { type: Date },
