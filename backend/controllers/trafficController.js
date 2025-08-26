@@ -27,24 +27,34 @@ exports.getTrafficIncidents = async (req, res, next) => {
 // Get traffic incidents near a location
 exports.getTrafficNearLocation = async (req, res, next) => {
   try {
-    const { lat, lng, maxDistance = 5000 } = req.query; // maxDistance in meters
+    console.log('Query parameters received:', req.query);
+
+    const { lat, lon, maxDistance = 5000 } = req.query; // maxDistance in meters
     
-    if (!lat || !lng) {
+    if (!lat || !lon) {
       return next(new AppError('Please provide latitude and longitude', 400));
     }
+
+     const coordinates = [parseFloat(lon), parseFloat(lat)];
+    console.log('Searching near coordinates:', coordinates);
     
-    const trafficIncidents = await Traffic.find({
+    const query = {
       isActive: true,
-      coordinates: {
+      'coordinates.coordinates': {
         $near: {
           $geometry: {
             type: "Point",
-            coordinates: [parseFloat(lng), parseFloat(lat)]
+            coordinates: coordinates
           },
           $maxDistance: parseInt(maxDistance)
         }
       }
-    });
+    };
+    console.log('MongoDB query:', JSON.stringify(query, null, 2));
+    
+
+    const trafficIncidents = await Traffic.find(query);
+    console.log('Found', trafficIncidents.length, 'results');
     
     res.status(200).json({
       status: 'success',
@@ -54,6 +64,7 @@ exports.getTrafficNearLocation = async (req, res, next) => {
       }
     });
   } catch (err) {
+    console.error('Error in getTrafficNearLocation:', err);
     next(err);
   }
 };

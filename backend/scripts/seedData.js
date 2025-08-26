@@ -105,7 +105,10 @@ const seedData = async () => {
       {
         city: 'Agadir',
         location: 'Souk El Had road',
-        coordinates: { lat: 30.433, lon: -9.598 },
+        coordinates: { 
+          type: 'Point',
+          coordinates:[-9.598, 30.433]
+        },
         congestionLevel: 'heavy',
         averageSpeed: 5,
         incidentType: 'construction',
@@ -115,7 +118,10 @@ const seedData = async () => {
       {
         city: 'Agadir',
         location: 'Marina roundabout',
-        coordinates: { lat: 30.418, lon: -9.611 },
+        coordinates: { 
+          type: 'Point',
+          coordinates:[-9.611, 30.418]
+        },
         congestionLevel: 'severe',
         incidentType: 'accident',
         description: 'Car accident blocking one lane',

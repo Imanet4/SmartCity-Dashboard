@@ -4,8 +4,17 @@ const trafficSchema = new mongoose.Schema({
   city: { type: String, required: true },
   location: { type: String, required: true },
   coordinates: {
-    lat: { type: Number, required: true },
-    lon: { type: Number, required: true }
+    type: {
+      type: String, //Defining the GeoJSON type
+      enum: ['Point'], //This must be point for coordinates
+      default: 'Point',
+      required: true
+    },
+    coordinates: {
+      type: [Number], //Array of numbers: [longitude, latitude]
+      required: true
+    }
+    
   },
   congestionLevel: { 
     type: String, 
