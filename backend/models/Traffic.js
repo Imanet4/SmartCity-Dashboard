@@ -8,7 +8,6 @@ const trafficSchema = new mongoose.Schema({
       type: String, //Defining the GeoJSON type
       enum: ['Point'], //This must be point for coordinates
       default: 'Point',
-      required: true
     },
     coordinates: {
       type: [Number], //Array of numbers: [longitude, latitude]
@@ -31,5 +30,8 @@ const trafficSchema = new mongoose.Schema({
   endTime: { type: Date },
   isActive: { type: Boolean, default: true }
 }, { timestamps: true });
+
+//CREATING THE  GEOSPATIAL INDEX
+trafficSchema.index({ 'coordinates.coordinates': '2dsphere' });
 
 module.exports = mongoose.model('Traffic', trafficSchema);
