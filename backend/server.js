@@ -12,6 +12,10 @@ const indexRouter = require('./routes/index');
 const weatherRouter = require('./routes/weather');
 const alertsRouter = require('./routes/alerts');
 
+
+//Importing error handler
+const globalErrorHandler = require('./utils/errorHandler');
+
 const app = express();
 
 //Data base connection
@@ -27,14 +31,15 @@ app.use(cors({
 }));
 app.use(helmet());
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 
 //Rate Limiter
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limits each IP to 100 requests per windowMs
+    max: 100, // limits each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP address, please try again later.'
 });
 app.use(limiter);
 
@@ -52,11 +57,10 @@ app.use('/api/v1/weather', weatherRouter);
 app.use('/api/v1/alerts', alertsRouter);
 
 
+
 //Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-});
+app.use(globalErrorHandler)
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
