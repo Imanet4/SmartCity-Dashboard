@@ -66,7 +66,7 @@ exports.login = async (req, res, next) => {
       return next(new AppError('Incorrect email or password', 401));
     }
 
-    //If everything is okay, send token to client
+    //If everything is okay, sending token to client
     createSendToken(user, 200, res);
   } catch (err) {
     next(err);
@@ -75,7 +75,7 @@ exports.login = async (req, res, next) => {
 
 exports.protect = async (req, res, next) => {
   try {
-    // 1) Getting token and check if it's there
+    //1: Getting token and checking if it's there
     let token;
     if (
       req.headers.authorization &&
@@ -90,16 +90,16 @@ exports.protect = async (req, res, next) => {
       throw new Error('You are not logged in! Please log in to get access.');
     }
 
-    // 2) Verification token
+    //2: Verification of token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-    // 3) Check if user still exists
+    //3: Checking if user still exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {
       throw new Error('The user belonging to this token does no longer exist.');
     }
 
-    // GRANT ACCESS TO PROTECTED ROUTE
+    //GRANTING ACCESS TO PROTECTED ROUTE
     req.user = currentUser;
     next();
   } catch (err) {
