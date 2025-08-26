@@ -11,6 +11,8 @@ require('dotenv').config();
 const indexRouter = require('./routes/index');
 const weatherRouter = require('./routes/weather');
 const alertsRouter = require('./routes/alerts');
+const eventsRouter = require('./routes/events');
+const trafficRouter = require('./routes/traffic');
 
 
 //Importing error handler
@@ -55,6 +57,9 @@ app.get('/', (req, res) => {
 app.use('/api/v1', indexRouter);
 app.use('/api/v1/weather', weatherRouter);
 app.use('/api/v1/alerts', alertsRouter);
+app.use('/api/v1/events', eventsRouter);
+app.use('/api/v1/traffic', trafficRouter);
+
 
 
 

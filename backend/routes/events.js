@@ -1,5 +1,5 @@
 const express = require('express');
-const eventController = require('../controllers/eventsController');
+const eventController = require('../controllers/eventsControllers');
 const authController = require('../controllers/authController');
 const { eventValidation } = require('../utils/validation');
 
