@@ -1,5 +1,7 @@
 const Alert = require('../models/Alert');
 
+
+//Getting all alerts for a city
 exports.getAllAlerts = async (req, res) => {
   try {
     const { city } = req.params;
@@ -26,6 +28,7 @@ exports.getAllAlerts = async (req, res) => {
   }
 };
 
+//Creating a new alert (admin only)
 exports.createAlert = async (req, res) => {
   try {
     const alert = await Alert.create(req.body);
@@ -44,6 +47,8 @@ exports.createAlert = async (req, res) => {
   }
 };
 
+
+//Updating the alert (admin only)
 exports.updateAlert = async (req, res) => {
   try {
     const alert = await Alert.findByIdAndUpdate(req.params.id, req.body, {
@@ -64,3 +69,28 @@ exports.updateAlert = async (req, res) => {
     });
   }
 };
+
+//Deleting an alert (admin only)
+
+exports.deleteAlert = async (req, res) => {
+  try{
+    const alert = await Alert.findByIdAndDelete(req.params.id);
+
+    if(!alert) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'No alert found with that ID'
+      });
+    }
+
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
+  } catch(err) {
+    res.status(400).json({
+      status: 'fail',
+      message: err.message
+    });
+  }
+}
