@@ -7,7 +7,8 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
-    cityPreferences: [{ type: String }] //For sorting preferred cities
+    cityPreferences: [{ type: String }], //For sorting preferred cities
+    language: { type: String, enum: ['ar', 'en', 'es', 'fr'], default: 'en' }, //Preferred language
 }, { timestamps: true });
 
 
@@ -19,8 +20,8 @@ UserSchema.pre('save', async function (next) {
 });
 
 //compare password method
-UserSchema.methods.comparePassword = async function (candidatePassword) {
-    return await bcrypt.compare(candidatePassword, this.password);
+UserSchema.methods.comparePassword = async function (candidatePassword, userPassword) {
+    return await bcrypt.compare(candidatePassword, userPassword);
 };
 
 module.exports = mongoose.model('User', UserSchema);
