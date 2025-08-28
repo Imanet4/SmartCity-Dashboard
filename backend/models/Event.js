@@ -7,7 +7,8 @@ const eventSchema = new mongoose.Schema({
   category: { 
     type: String, 
     enum: ['festival', 'sports', 'culture', 'music', 'other'],
-    required: true
+    required: true,
+    default: 'other'
   },
   location: { type: String, required: true },
   coordinates: {
