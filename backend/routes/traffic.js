@@ -5,7 +5,7 @@ const {
   createTrafficIncident,
   updateTrafficIncident
 } = require('../controllers/trafficController');
-const authController = require('../controllers/authController');
+const { protect, restrictTo } = require('../middleware/authMiddleware');
 const { alertValidation } = require('../utils/validation');
 
 const router = express.Router();
@@ -15,7 +15,7 @@ router.get('/:city', getTrafficIncidents);
 router.get('/nearby/location', getTrafficNearLocation);
 
 //Protected routes (admin only)
-router.use(authController.protect, authController.restrictTo('admin'));
+router.use(protect, restrictTo('admin'));
 router.post('/', alertValidation, createTrafficIncident);
 router.put('/:id', alertValidation, updateTrafficIncident);
 

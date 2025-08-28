@@ -1,6 +1,6 @@
 const express = require('express');
 const alertController = require('../controllers/alertController');
-const authController = require('../controllers/authController');
+const { protect } = require('../middleware/authMiddleware')
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/:city', alertController.getAllAlerts);
 
 //Protected routes
-router.use(authController.protect);
+router.use(protect);
 router.post('/', alertController.createAlert);
 router.put('/:id', alertController.updateAlert);
 router.delete('/:id', alertController.deleteAlert);
