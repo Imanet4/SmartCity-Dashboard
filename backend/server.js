@@ -4,7 +4,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 //Import routes
@@ -18,12 +17,20 @@ const trafficRouter = require('./routes/traffic');
 //Importing error handler
 const globalErrorHandler = require('./utils/errorHandler');
 
+//Rate limiter middlware
+const { generalLimiter } = require('./middleware/rateLimiter');
+
+
 const app = express();
 
 //Data base connection
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
+
+//Rate Limiter
+app.use(generalLimiter);
+
 
 
 // Middleware
@@ -35,15 +42,6 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
-
-
-//Rate Limiter
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limits each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP address, please try again later.'
-});
-app.use(limiter);
 
 
 
