@@ -12,7 +12,7 @@ router.get('/single/:id', eventController.getEvent);
 //Protected routes (admin only)
 router.use(authController.protect, authController.restrictTo('admin'));
 router.post('/', eventValidation, eventController.createEvent);
-router.patch('/:id', eventValidation, eventController.updateEvent);
+router.put('/:id', eventValidation, eventController.updateEvent);
 router.delete('/:id', eventController.deleteEvent);
 
 module.exports = router;
