@@ -18,15 +18,18 @@ const useAlerts = () => {
       } catch (err) {
         setError(err.message);
         // Mock data for demo purposes
-        setAlerts({
-          active: true,
-          type: 'Weather Advisory',
-          severity: 'Moderate',
-          message: 'Heavy rain expected in the afternoon',
-          issuedAt: new Date().toISOString(),
-          expiresAt: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
-          affectedAreas: ['Downtown', 'East District']
-        });
+        setAlerts([
+          { 
+            type: "heatwave", 
+            message: "Heatwave Warning until 6PM",
+            severity: "high"
+          },
+          { 
+            type: "waves", 
+            message: "Strong Waves at Taghazout",
+            severity: "medium"
+          }
+        ]);
       } finally {
         setLoading(false);
       }
