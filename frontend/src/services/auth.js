@@ -11,6 +11,10 @@ export const logout = async () => {
 };
 
 export const checkAuth = async () => {
+  try {
   const response = await api.get('/auth/check');
   return response.data;
+} catch (error) {
+  throw new Error('Authentication check failed');
+}
 };
