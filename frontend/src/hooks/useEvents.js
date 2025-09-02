@@ -19,21 +19,17 @@ const useEvents = () => {
         setError(err.message);
         // Mock data for demo purposes
         setEvents([
-          {
-            id: 1,
-            title: 'City Marathon',
-            date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
-            location: 'Central Park',
-            type: 'Sports',
-            impact: 'Road closures expected'
+          { 
+            name: "Agadir Summer Festival", 
+            date: "Aug 20",
+            type: "festival",
+            icon: "N"
           },
-          {
-            id: 2,
-            title: 'Music Festival',
-            date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
-            location: 'Downtown Square',
-            type: 'Entertainment',
-            impact: 'Increased traffic and parking restrictions'
+          { 
+            name: "Surf Competition", 
+            date: "Aug 25",
+            type: "sports",
+            icon: "∅"
           }
         ]);
       } finally {
