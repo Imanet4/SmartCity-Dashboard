@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import react, { useEffect, useState } from 'react';
 import Header from '../components/common/Header';
 import WeatherSection from '../components/WeatherSection';
 import TrafficSection from '../components/TrafficSection';
@@ -7,7 +7,7 @@ import EventsSection from '../components/EventsSection';
 import AnalyticsCharts from '../components/AnalyticsCharts';
 import AdminPanel from '../components/AdminPanel';
 import { checkAuth } from '../services/auth'
-import { useEffect } from 'react';
+
 
 const Dashboard = () => {
       const [isAdmin, setIsAdmin] = useState(false);
