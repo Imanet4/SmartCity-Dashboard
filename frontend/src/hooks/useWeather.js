@@ -14,7 +14,7 @@ const useWeather = () => {
         setLoading(true);
         // Simulate API call
         const response = await api.get(`/cities/${selectedCity}/weather`);
-        setWeather(response.data);
+        setWeather(response.data.data || {});
         setError(null);
       } catch (err) {
         setError(err.message);

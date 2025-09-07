@@ -1,13 +1,23 @@
 const Alert = require('../models/Alert');
+const City = require('../models/City');
 
 
-//Getting all alerts for a city
 exports.getAllAlerts = async (req, res) => {
   try {
     const { city } = req.params;
+    
+    // First find the city by name to get its ID
+    const cityDoc = await City.findOne({ name: city });
+    if (!cityDoc) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'City not found'
+      });
+    }
+    
     const { type, active } = req.query;
     
-    const query = { city };
+    const query = { city: cityDoc._id }; // Use city ID instead of name
     if (type) query.type = type;
     if (active) query.isActive = active === 'true';
     

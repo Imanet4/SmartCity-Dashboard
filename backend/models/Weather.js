@@ -6,7 +6,7 @@ const weatherSchema = new mongoose.Schema({
   humidity: { type: Number },
   windSpeed: { type: Number },
   conditions: { type: String },
-  airQuality: { type: Number, enum: ['Good', 'Moderate', 'Unhealthy', 'Very Unhealthy', 'Hazardous'] },
+  airQuality: { type: String, enum: ['Good', 'Moderate', 'Unhealthy', 'Very Unhealthy', 'Hazardous'] },
   lastUpdated: { type: Date, default: Date.now }
 });
 

@@ -50,6 +50,24 @@ exports.signup = async (req, res, next) => {
   }
 };
 
+
+exports.checkAuth = async (req, res) => {
+  try {
+    // For now, return false for both - you'll implement proper auth later
+    res.json({
+      isAuthenticated: false,
+      isAdmin: false
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message
+    });
+  }
+};
+
+
+
 exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;

@@ -4,13 +4,23 @@ const Traffic = require('../models/Traffic');
 const Alert = require('../models/Alert');
 const Event = require('../models/Event');
 
+// Helper function to get data by city name
+const getDataByCityName = async (Model, cityName) => {
+  // First find the city by name to get its ID
+  const city = await City.findOne({ name: cityName });
+  if (!city) return null;
+  
+  // Then find data that references this city ID
+  return await Model.find({ city: city._id });
+};
+
 // Get weather for a specific city
 const getCityWeather = async (req, res) => {
   try {
     const cityName = req.params.cityName;
-    const city = await City.findOne({ name: cityName }).populate('weatherData');
+    const weatherData = await getDataByCityName(Weather, cityName);
     
-    if (!city || !city.weatherData) {
+    if (!weatherData || weatherData.length === 0) {
       return res.status(404).json({ 
         success: false, 
         message: 'Weather data not found for this city' 
@@ -19,7 +29,7 @@ const getCityWeather = async (req, res) => {
     
     res.json({
       success: true,
-      data: city.weatherData
+      data: weatherData[0] // Return the first (should be only one) weather entry
     });
   } catch (error) {
     res.status(500).json({ 
@@ -33,9 +43,9 @@ const getCityWeather = async (req, res) => {
 const getCityTraffic = async (req, res) => {
   try {
     const cityName = req.params.cityName;
-    const city = await City.findOne({ name: cityName }).populate('trafficData');
+    const trafficData = await getDataByCityName(Traffic, cityName);
     
-    if (!city || !city.trafficData) {
+    if (!trafficData || trafficData.length === 0) {
       return res.status(404).json({ 
         success: false, 
         message: 'Traffic data not found for this city' 
@@ -44,7 +54,7 @@ const getCityTraffic = async (req, res) => {
     
     res.json({
       success: true,
-      data: city.trafficData
+      data: trafficData
     });
   } catch (error) {
     res.status(500).json({ 
@@ -58,9 +68,9 @@ const getCityTraffic = async (req, res) => {
 const getCityAlerts = async (req, res) => {
   try {
     const cityName = req.params.cityName;
-    const city = await City.findOne({ name: cityName }).populate('alertsData');
+    const alertsData = await getDataByCityName(Alert, cityName);
     
-    if (!city || !city.alertsData) {
+    if (!alertsData || alertsData.length === 0) {
       return res.status(404).json({ 
         success: false, 
         message: 'Alerts data not found for this city' 
@@ -69,7 +79,7 @@ const getCityAlerts = async (req, res) => {
     
     res.json({
       success: true,
-      data: city.alertsData
+      data: alertsData
     });
   } catch (error) {
     res.status(500).json({ 
@@ -83,9 +93,9 @@ const getCityAlerts = async (req, res) => {
 const getCityEvents = async (req, res) => {
   try {
     const cityName = req.params.cityName;
-    const city = await City.findOne({ name: cityName }).populate('eventsData');
+    const eventsData = await getDataByCityName(Event, cityName);
     
-    if (!city || !city.eventsData) {
+    if (!eventsData || eventsData.length === 0) {
       return res.status(404).json({ 
         success: false, 
         message: 'Events data not found for this city' 
@@ -94,7 +104,7 @@ const getCityEvents = async (req, res) => {
     
     res.json({
       success: true,
-      data: city.eventsData
+      data: eventsData
     });
   } catch (error) {
     res.status(500).json({ 
@@ -117,16 +127,13 @@ const getCityDetails = async (req, res) => {
       });
     }
     
-    // Return only city details, not the populated data
-    const cityDetails = {
-      name: city.name,
-      coordinates: city.coordinates,
-      zoomLevel: city.zoomLevel
-    };
-    
     res.json({
       success: true,
-      data: cityDetails
+      data: {
+        name: city.name,
+        coordinates: city.coordinates,
+        zoomLevel: city.zoomLevel
+      }
     });
   } catch (error) {
     res.status(500).json({ 

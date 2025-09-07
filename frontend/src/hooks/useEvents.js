@@ -13,7 +13,7 @@ const useEvents = () => {
       try {
         setLoading(true);
         const response = await api.get(`/cities/${selectedCity}/events`);
-        setEvents(response.data);
+        setEvents(response.data.data || [] );
         setError(null);
       } catch (err) {
         setError(err.message);

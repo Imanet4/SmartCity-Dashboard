@@ -13,20 +13,23 @@ const useTraffic = () => {
       try {
         setLoading(true);
         const response = await api.get(`/cities/${selectedCity}/traffic`);
-        setTraffic(response.data);
+        setTraffic(response.data.data || [] );
         setError(null);
       } catch (err) {
         setError(err.message);
         // Mock data for demo purposes
-        setTraffic({
-          congestionLevel: 'Moderate',
-          averageSpeed: 45,
-          incidents: 2,
-          majorRoutes: [
-            { name: 'Main Highway', status: 'Slow', delay: '15 min' },
-            { name: 'Downtown Expressway', status: 'Clear', delay: '0 min' }
-          ]
-        });
+        setTraffic([
+          { 
+            location: "Souk El Had road", 
+            message: "heavy traffic",
+            type: "traffic"
+          },
+          { 
+            location: "Marina roundabout", 
+            message: "accident",
+            type: "accident"
+          }
+        ]);
       } finally {
         setLoading(false);
       }

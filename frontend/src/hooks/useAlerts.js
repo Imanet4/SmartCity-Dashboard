@@ -13,7 +13,7 @@ const useAlerts = () => {
       try {
         setLoading(true);
         const response = await api.get(`/cities/${selectedCity}/alerts`);
-        setAlerts(response.data);
+        setAlerts(response.data.data || [] );
         setError(null);
       } catch (err) {
         setError(err.message);
