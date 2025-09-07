@@ -12,6 +12,7 @@ const weatherRouter = require('./routes/weather');
 const alertsRouter = require('./routes/alerts');
 const eventsRouter = require('./routes/events');
 const trafficRouter = require('./routes/traffic');
+const citiesRouter = require('./routes/cities');
 
 
 //Importing error handler
@@ -52,11 +53,12 @@ app.get('/', (req, res) => {
 });
 
 //Routes
-app.use('/api/v1', indexRouter);
-app.use('/api/v1/weather', weatherRouter);
-app.use('/api/v1/alerts', alertsRouter);
-app.use('/api/v1/events', eventsRouter);
-app.use('/api/v1/traffic', trafficRouter);
+app.use('/api', indexRouter);
+app.use('/api/weather', weatherRouter);
+app.use('/api/alerts', alertsRouter);
+app.use('/api/events', eventsRouter);
+app.use('/api/traffic', trafficRouter);
+app.use('/api/cities', citiesRouter);
 
 
 
