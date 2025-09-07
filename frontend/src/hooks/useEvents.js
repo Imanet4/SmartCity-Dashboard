@@ -12,7 +12,7 @@ const useEvents = () => {
     const fetchEvents = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`/events/${selectedCity}`);
+        const response = await api.get(`/cities/${selectedCity}/events`);
         setEvents(response.data);
         setError(null);
       } catch (err) {

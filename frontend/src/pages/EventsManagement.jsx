@@ -37,7 +37,7 @@ const EventsManagement = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await api.get('/admin/events');
+      const response = await api.get('/events');
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -54,7 +54,7 @@ const EventsManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/admin/events', formData);
+      await api.post('/events', formData);
       setShowForm(false);
       setFormData({ name: '', date: '', type: 'festival', icon: '' });
       fetchEvents(); // Refresh the list
@@ -67,7 +67,7 @@ const EventsManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this event?')) {
       try {
-        await api.delete(`/admin/events/${id}`);
+        await api.delete(`/events/${id}`);
         fetchEvents(); // Refresh the list
       } catch (error) {
         console.error('Error deleting event:', error);

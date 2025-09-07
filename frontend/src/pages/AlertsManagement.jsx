@@ -36,7 +36,7 @@ const AlertsManagement = () => {
 
   const fetchAlerts = async () => {
     try {
-      const response = await api.get('/admin/alerts');
+      const response = await api.get('/alerts');
       setAlerts(response.data);
     } catch (error) {
       console.error('Error fetching alerts:', error);
@@ -53,7 +53,7 @@ const AlertsManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/admin/alerts', formData);
+      await api.post('/alerts', formData);
       setShowForm(false);
       setFormData({ type: '', message: '', severity: 'medium' });
       fetchAlerts(); // Refresh the list
@@ -66,7 +66,7 @@ const AlertsManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this alert?')) {
       try {
-        await api.delete(`/admin/alerts/${id}`);
+        await api.delete(`/alerts/${id}`);
         fetchAlerts(); // Refresh the list
       } catch (error) {
         console.error('Error deleting alert:', error);

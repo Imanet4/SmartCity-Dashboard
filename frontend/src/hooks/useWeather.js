@@ -13,7 +13,7 @@ const useWeather = () => {
       try {
         setLoading(true);
         // Simulate API call
-        const response = await api.get(`/weather/${selectedCity}`);
+        const response = await api.get(`/cities/${selectedCity}/weather`);
         setWeather(response.data);
         setError(null);
       } catch (err) {

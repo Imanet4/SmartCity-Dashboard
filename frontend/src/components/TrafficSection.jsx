@@ -8,15 +8,15 @@ const TrafficSection = () => {
   if (error) return <div className="card">Error loading traffic data</div>;
 
   return (
-    <div className="card">
+    <div className="card-custom">
       <h2 className="card-title">TRAFFIC ALERTS</h2>
-      <div className="space-y-3">
+      <div className="traffic-alerts">
         {traffic.map((alert, index) => (
-          <div key={index} className="flex items-start">
+          <div key={index} className="d-flex align-items-start mb-3">
             <div className="alert-indicator"></div>
             <div>
-              <p className="font-medium">{alert.location}</p>
-              <p className="text-sm text-gray-600">{alert.message}</p>
+              <p className="fw-medium mb-1">{alert.location}</p>
+              <p className="text-muted small mb-0">{alert.message}</p>
             </div>
           </div>
         ))}

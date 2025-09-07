@@ -8,11 +8,11 @@ const WeatherSection = () => {
   if (error) return <div className="card">Error loading weather data</div>;
 
   return (
-    <div className="card">
+    <div className="card-custom">
       <h2 className="card-title">WEATHER</h2>
       <div className="text-center">
-        <div className="text-4xl font-bold text-blue-600">{weather.temperature}°C</div>
-        <div className="text-gray-600 mt-2">Air: {weather.airQuality}</div>
+        <div className="display-4 fw-bold text-primary-custom">{weather.temperature}°C</div>
+        <div className="text-muted mt-2">Air: {weather.airQuality}</div>
       </div>
     </div>
   );

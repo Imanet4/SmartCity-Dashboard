@@ -12,7 +12,7 @@ const useTraffic = () => {
     const fetchTraffic = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`/traffic/${selectedCity}`);
+        const response = await api.get(`/cities/${selectedCity}/traffic`);
         setTraffic(response.data);
         setError(null);
       } catch (err) {

@@ -12,7 +12,7 @@ const useAlerts = () => {
     const fetchAlerts = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`/alerts/${selectedCity}`);
+        const response = await api.get(`/cities/${selectedCity}/alerts`);
         setAlerts(response.data);
         setError(null);
       } catch (err) {
