@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const trafficSchema = new mongoose.Schema({
-  city: { type: String, required: true },
+  city: { type: mongoose.Schema.Types.ObjectId, ref: 'City', required: true },
   location: { type: String, required: true },
   coordinates: {
     type: {

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const alertSchema = new mongoose.Schema({
-  city: { type: String, required: true },
+  city: { type: mongoose.Schema.Types.ObjectId, ref: 'City', required: true },
   type: { type: String, enum: ['traffic', 'safety', 'weather', 'Emergency'], required: true },
   severity: { type: String, enum: ['low', 'medium', 'high', 'Critical'], default: 'medium' },
   title: { type: String, required: true },
