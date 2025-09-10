@@ -5,15 +5,11 @@ const LanguageSwitcher = () => {
   const { language, setLanguage } = useLanguage();
 
   return (
-    <div className="flex space-x-2">
+    <div className="language-switcher">
       {['EN', 'FR', 'AR'].map((lang) => (
         <button
           key={lang}
-          className={`px-2 py-1 rounded ${
-            language === lang
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className={`language-btn ${language === lang ? 'active' : ''}`}
           onClick={() => setLanguage(lang)}
         >
           {lang}
